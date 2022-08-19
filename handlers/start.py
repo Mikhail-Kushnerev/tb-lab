@@ -2,10 +2,9 @@ import time
 from aiogram import types
 from aiogram.utils import markdown
 
-from config import dp, BASE_DIR, DOWNLOAD_DIR
+from config import dp, DOWNLOAD_DIR
 from pyppeteer import launch
 
-from constants import PATTERN
 from utils.exceptions import check_connect
 
 
