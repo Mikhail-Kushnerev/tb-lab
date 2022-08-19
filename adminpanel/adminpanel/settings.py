@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'panel'
+    'adminpanel.panel'
 ]
 
 MIDDLEWARE = [
@@ -33,7 +33,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'adminpanel.urls'
+ROOT_URLCONF = 'adminpanel.adminpanel.urls'
 
 TEMPLATES = [
     {
@@ -51,7 +51,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'adminpanel.wsgi.application'
+WSGI_APPLICATION = 'adminpanel.adminpanel.wsgi.application'
 
 DATABASES = {
     'default': {
