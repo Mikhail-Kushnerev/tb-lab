@@ -56,11 +56,11 @@ WSGI_APPLICATION = 'adminpanel.adminpanel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "panel_db",
-        'USER': "postgres",
-        'PASSWORD': "Bear2013",
-        'HOST': "localhost",
-        'PORT': 5432
+        'NAME': os.getenv("POSTGRES_DB", default="postgres"),
+        'USER': os.getenv("POSTGRES_USER", default="postgres"),
+        'PASSWORD': os.getenv("PASSWORD", default="qwerty12345"),
+        'HOST': os.getenv("HOST", default="127.0.0.1"),
+        'PORT': os.getenv("PORT", 5432)
     }
 }
 

@@ -1,22 +1,18 @@
-import time
-import re
-from aiogram import types
-from aiogram.utils import markdown
-from pyppeteer import launch
-
-from config import dp, DOWNLOAD_DIR
-from constants import PATTERN
-from utils.commands import add_item
+from config import dp
+from constants import HELLO_TEXT
 from utils.exceptions import check_connect
-
+from handlers.parse_and_answer import search
 
 @dp.message_handler(commands=("start",))
 async def start(message):
-    await message.answer(text="hi")
+    await message.answer(
+        "\n".join(HELLO_TEXT),
+        parse_mode="html"
+    )
 
 
 @dp.message_handler()
-async def search(message):
+async def check(message):
     try:
         url = message.text
         if not url.startswith(("https", "http")):
@@ -32,48 +28,4 @@ async def search(message):
             caption="Запрос принят",
             reply=False
         )
-        # target = await check_connect(url)
-        # if not target:
-        #     return
-        # else:
-        start = time.perf_counter()
-        browser = await launch()
-        page = await browser.newPage()
-        await page.goto(
-            url,
-            {"waitUntil": "networkidle2"}
-        )
-        path = f"{DOWNLOAD_DIR}\google.png"
-        await page.screenshot(
-            {
-                "path": path,
-            }
-        )
-        element = await page.querySelector('title')
-        title = await page.evaluate('(element) => element.textContent', element)
-        text = "\n".join(
-            (
-                title,
-                f"\n{markdown.hbold('Веб - сайт')}: {url}\n",
-                "Время обработки: {} секунд"
-            )
-        )
-        with open(path, 'rb') as file:
-            await dp.bot.edit_message_media(
-                chat_id=message.from_user.id,
-                message_id=msg.message_id,
-                media=types.InputMediaPhoto(file)
-            )
-        await dp.bot.edit_message_caption(
-            chat_id=message.from_user.id,
-            message_id=msg.message_id,
-            caption=text.format(int(time.perf_counter() - start)),
-            parse_mode='html'
-        )
-        compile = re.compile(PATTERN)
-        domen = compile.search(url)
-        await add_item(
-            user_id=message.from_user.id,
-            domen=domen.groups("domen")[0]
-        )
-        await browser.close()
+        await search(url, msg.message_id, message.from_user.id)
