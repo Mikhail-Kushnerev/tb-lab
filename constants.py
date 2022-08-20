@@ -1,4 +1,4 @@
 import re
 
 
-PATTERN = r"//([\w\d]+.[com|ru])"
+PATTERN = r"//(?P<domen>[\w\d]+.*)/?"

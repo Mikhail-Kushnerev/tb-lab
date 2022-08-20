@@ -17,13 +17,7 @@ def setup_django():
 
 
 if __name__ == "__main__":
+    setup_django()
 
-    try:
-        setup_django()
-    except Exception:
-        ...
     from handlers import dp
-    try:
-        executor.start_polling(dp, skip_updates=True)
-    except Exception:
-        ...
+    executor.start_polling(dp, skip_updates=True)

@@ -1,10 +1,11 @@
 import time
+import re
 from aiogram import types
 from aiogram.utils import markdown
-
-from config import dp, DOWNLOAD_DIR
 from pyppeteer import launch
 
+from config import dp, DOWNLOAD_DIR
+from constants import PATTERN
 from utils.commands import add_item
 from utils.exceptions import check_connect
 
@@ -20,6 +21,9 @@ async def search(message):
         url = message.text
         if not url.startswith(("https", "http")):
             raise Exception
+        target = await check_connect(url)
+        if not target:
+            raise Exception
     except Exception:
         print("q")
     else:
@@ -28,9 +32,10 @@ async def search(message):
             caption="Запрос принят",
             reply=False
         )
-        target = await check_connect(url)
-        if not target:
-            return
+        # target = await check_connect(url)
+        # if not target:
+        #     return
+        # else:
         start = time.perf_counter()
         browser = await launch()
         page = await browser.newPage()
@@ -65,8 +70,10 @@ async def search(message):
             caption=text.format(int(time.perf_counter() - start)),
             parse_mode='html'
         )
+        compile = re.compile(PATTERN)
+        domen = compile.search(url)
         await add_item(
-            user_id=1,
-            domen="q"
+            user_id=message.from_user.id,
+            domen=domen.groups("domen")[0]
         )
         await browser.close()
