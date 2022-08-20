@@ -7,7 +7,7 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", default="qwerty12345")
 
 DEBUG = True
 
@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adminpanel.panel'
+    'adminpanel.panel.apps.PanelConfig'
 ]
 
 MIDDLEWARE = [
@@ -56,11 +56,11 @@ WSGI_APPLICATION = 'adminpanel.adminpanel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("POSTGRES_DB", default="postgres"),
-        'USER': os.getenv("POSTGRES_USER", default="postgres"),
-        'PASSWORD': os.getenv("PASSWORD", default="qwerty12345"),
-        'HOST': os.getenv("HOST", default="127.0.0.1"),
-        'PORT': os.getenv("PORT", 5432)
+        'NAME': "panel_db",
+        'USER': "postgres",
+        'PASSWORD': "Bear2013",
+        'HOST': "localhost",
+        'PORT': 5432
     }
 }
 

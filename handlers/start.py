@@ -5,6 +5,7 @@ from aiogram.utils import markdown
 from config import dp, DOWNLOAD_DIR
 from pyppeteer import launch
 
+from utils.commands import add_item
 from utils.exceptions import check_connect
 
 
@@ -63,5 +64,9 @@ async def search(message):
             message_id=msg.message_id,
             caption=text.format(int(time.perf_counter() - start)),
             parse_mode='html'
+        )
+        await add_item(
+            user_id=1,
+            domen="q"
         )
         await browser.close()
