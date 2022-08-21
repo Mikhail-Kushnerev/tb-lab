@@ -1,9 +1,6 @@
 import aiohttp
 
 
-
-
-
 async def check_connect(url):
     try:
         async with aiohttp.ClientSession() as session:

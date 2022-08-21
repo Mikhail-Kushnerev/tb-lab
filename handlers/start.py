@@ -28,4 +28,8 @@ async def check(message):
             caption="Запрос принят",
             reply=False
         )
-        await search(url, msg.message_id, message.from_user.id)
+        await search(
+            url,
+            msg.message_id or message.chat.id,
+            message.from_user.id
+        )

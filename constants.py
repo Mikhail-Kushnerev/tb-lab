@@ -13,3 +13,5 @@ HELLO_TEXT = (
 )
 
 PATTERN = r"//(?P<domen>[\w\d]+.*)/?"
+
+DOMEN_URL = "https://whois.ru/{domen}"
