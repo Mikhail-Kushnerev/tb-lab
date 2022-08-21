@@ -4,9 +4,8 @@ from adminpanel.panel.models import Info
 
 
 @sync_to_async
-def add_item(user_id, domen):
-    a = Info.objects.create(
+def add_item(user_id: int, domen: str) -> None:
+    Info.objects.create(
         user_id=user_id,
         domen=domen
     )
-    return a

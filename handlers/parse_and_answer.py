@@ -1,13 +1,13 @@
 import re
 import time
+from typing import Pattern, Match
 
-import aiohttp
 from aiogram import types
 from aiogram.utils import markdown
 from pyppeteer import launch
 
-from config import dp, DOWNLOAD_DIR
-from constants import PATTERN
+from utils.config import dp, DOWNLOAD_DIR
+from utils.constants import PATTERN
 from utils.commands import add_item
 from keyboards.inline import (
     show_domen,
@@ -15,15 +15,16 @@ from keyboards.inline import (
 )
 
 
-async def search(url, msg, user_id):
-    start = time.perf_counter()
+async def search(url: str, msg: int, user_id: int):
+    start: time = time.perf_counter()
     browser = await launch()
     page = await browser.newPage()
     await page.goto(
         url,
         {"waitUntil": "networkidle2"}
     )
-    path = f"{DOWNLOAD_DIR}\google.png"
+    file_name: str = url.split('//')[1].rsplit('.')[0]
+    path: str = fr"{DOWNLOAD_DIR}\{file_name}.png"
     await page.screenshot(
         {
             "path": path,
@@ -31,7 +32,7 @@ async def search(url, msg, user_id):
     )
     element = await page.querySelector('title')
     title = await page.evaluate('(element) => element.textContent', element)
-    text = "\n".join(
+    text: str = "\n".join(
         (
             title,
             f"\n{markdown.hbold('Веб - сайт')}: {url}\n",
@@ -52,8 +53,8 @@ async def search(url, msg, user_id):
         reply_markup=markup,
         parse_mode='html'
     )
-    compile = re.compile(PATTERN)
-    domen = compile.search(url)
+    compile: Pattern[str] = re.compile(PATTERN)
+    domen: Match[str] | None = compile.search(url)
     await add_item(
         user_id=user_id,
         domen=domen.groups("domen")[0]

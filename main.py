@@ -1,6 +1,9 @@
+import logging
 import os
 
 from aiogram import executor
+
+from services.logger import get_log
 
 
 def setup_django():
@@ -17,7 +20,18 @@ def setup_django():
 
 
 if __name__ == "__main__":
-    setup_django()
+    get_log()
+    try:
+        setup_django()
+    except Exception:
+        logging.error("Сбой подключения Django к боту")
+    else:
+        logging.info("Django подключен к боту")
 
     from handlers import dp
-    executor.start_polling(dp, skip_updates=True)
+    try:
+        executor.start_polling(dp, skip_updates=True)
+    except Exception:
+        logging.error("Ошибка запуска бота")
+    else:
+        logging.info("Бот запущен")
