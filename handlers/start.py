@@ -48,7 +48,7 @@ async def check(message: Message) -> None:
             ERROR_REQUEST
         )
     else:
-        logging.error("Запрос прошёл проверку")
+        logging.info("Запрос прошёл проверку")
         msg: Message = await message.reply_photo(
             photo="https://sun9-85.userapi.com/impg/qfz8AxGHPJt-oMfwAnvM17LlvaRK9jIhC3FAvQ/vexkCYmaXY4.jpg?size=676x694&quality=96&sign=0128240c61865b40f3f4bcafcec9a5c9&type=album",
             caption="Запрос принят",
