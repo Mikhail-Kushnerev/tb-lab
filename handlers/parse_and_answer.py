@@ -5,20 +5,23 @@ from typing import Pattern, Match
 from aiogram import types
 from aiogram.utils import markdown
 from pyppeteer import launch
+from pyppeteer.browser import Browser
+from pyppeteer.element_handle import ElementHandle
+from pyppeteer.page import Page
 
-from utils.config import dp, DOWNLOAD_DIR
-from utils.constants import PATTERN
-from utils.commands import add_item
 from keyboards.inline import (
     show_domen,
     check_info
 )
+from utils.commands import add_item
+from utils.config import dp, DOWNLOAD_DIR
+from utils.constants import PATTERN
 
 
-async def search(url: str, msg: int, user_id: int):
+async def search(url: str, msg: int, user_id: int) -> None:
     start: time = time.perf_counter()
-    browser = await launch()
-    page = await browser.newPage()
+    browser: Browser = await launch()
+    page: Page = await browser.newPage()
     await page.goto(
         url,
         {"waitUntil": "networkidle2"}
@@ -30,8 +33,11 @@ async def search(url: str, msg: int, user_id: int):
             "path": path,
         }
     )
-    element = await page.querySelector('title')
-    title = await page.evaluate('(element) => element.textContent', element)
+    element: ElementHandle | None = await page.querySelector('title')
+    title: str = await page.evaluate(
+        '(element) => element.textContent',
+        element
+    )
     text: str = "\n".join(
         (
             title,

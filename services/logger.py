@@ -3,7 +3,7 @@ import logging
 from utils.constants import DT_FORMAT, LOG_FORMAT
 
 
-def get_log():
+def get_log() -> None:
     logging.basicConfig(
         level=logging.INFO,
         encoding="utf-8",

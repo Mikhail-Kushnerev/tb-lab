@@ -6,7 +6,7 @@ from aiogram import executor
 from services.logger import get_log
 
 
-def setup_django():
+def setup_django() -> None:
     os.environ.setdefault(
         "DJANGO_SETTINGS_MODULE", "adminpanel.adminpanel.settings"
     )

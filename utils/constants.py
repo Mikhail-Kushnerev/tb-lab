@@ -1,6 +1,6 @@
 from aiogram.utils.markdown import hbold
 
-HELLO_TEXT = (
+HELLO_TEXT: tuple[str, ...] = (
     (
         f"Привет! Меня зовут {hbold('tp - lab')}.",
         "Я - Бот для создания веб-скриншотов.",
@@ -11,13 +11,13 @@ HELLO_TEXT = (
     )
 )
 
-PATTERN = r"//(?P<domen>[\w\d]+.*)/?"
+PATTERN: str = r"//(?P<domen>[\w\d]+.*)/?"
 
-DOMEN_URL = "https://whois.ru/{domen}"
+DOMEN_URL: str = "https://whois.ru/{domen}"
 
-DT_FORMAT = '%d.%m.%Y %H:%M:%S'
+DT_FORMAT: str = '%d.%m.%Y %H:%M:%S'
 
-LOG_FORMAT = "".join(
+LOG_FORMAT: str = "".join(
     (
         "|\t%(asctime)s – [%(levelname)s]: %(message)s. ",
         "Исполняемый файл – '%(filename)s': ",
@@ -25,7 +25,7 @@ LOG_FORMAT = "".join(
     )
 )
 
-ERROR_REQUEST = "\n".join(
+ERROR_REQUEST: str = "\n".join(
     (
         "В запросе допущена ошибка. Проверьте правильность ссылки",
         "Шаблон: http(s)://<домен>"
