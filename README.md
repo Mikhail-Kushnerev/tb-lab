@@ -116,6 +116,7 @@ pip install -r requirements.txt
 ```
 - Создайте токен для `Django`-проекта:
 ```python
+(главная директория)
 python django_app.py shell
 >>> from django.core.management.utils import get_random_secret_key
 >>> get_random_secret_key()

@@ -1,6 +1,7 @@
 import logging
 import os
 
+import django
 from aiogram import executor
 
 from services.logger import get_log
@@ -16,7 +17,6 @@ def setup_django() -> None:
             "DJANGO_ALLOW_ASYNC_UNSAFE": "true"
         }
     )
-    import django
     django.setup()
 
 

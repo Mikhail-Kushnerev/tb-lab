@@ -9,7 +9,7 @@ from services.logger import get_log
 get_log()
 
 
-async def check_connect(url) -> None | bool:
+async def check_connect(url):
     try:
         async with aiohttp.ClientSession() as session:
             response: ClientResponse = await session.get(url)

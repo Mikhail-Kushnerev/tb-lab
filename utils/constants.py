@@ -13,6 +13,8 @@ HELLO_TEXT: tuple[str, ...] = (
     )
 )
 
+DEFAULT_ANSWER_PIC = "https://clck.ru/toTTE"
+
 PATTERN: str = r"//(?P<domen>[\w\d]+.*)/?"
 
 DOMEN_URL: str = "https://whois.ru/{domen}"
