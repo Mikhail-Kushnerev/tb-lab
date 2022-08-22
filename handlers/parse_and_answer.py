@@ -20,7 +20,9 @@ from utils.constants import PATTERN
 
 async def search(url: str, msg: int, user_id: int) -> None:
     start: time = time.perf_counter()
-    browser: Browser = await launch()
+    browser: Browser = await launch(
+        executablePath='/usr/bin/google-chrome-stable',
+        headless=True, args=['--no-sandbox'])
     page: Page = await browser.newPage()
     await page.goto(
         url,

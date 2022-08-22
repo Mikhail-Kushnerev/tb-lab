@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", default="qwerty12345")
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,12 +55,12 @@ WSGI_APPLICATION = 'adminpanel.adminpanel.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': os.getenv("DB_ENGINE", default="django.db.backends.postgresql"),
         'NAME': os.getenv("POSTGRES_DB", default="postgres"),
-        'USER': os.getenv("POSTGRES_USER", default="postgres"),
-        'PASSWORD': os.getenv("PASSWORD", default="qwerty12345"),
-        'HOST': os.getenv("HOST", default="127.0.0.1"),
-        'PORT': os.getenv("PORT", 5432)
+        'USER': os.getenv("POSTGRES_USER", default=None),
+        'PASSWORD': os.getenv("PASSWORD", default=None),
+        'HOST': os.getenv("DB_HOST", default=None),
+        'PORT': os.getenv("DB_PORT", default=None)
     }
 }
 

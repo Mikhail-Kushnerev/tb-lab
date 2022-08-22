@@ -1,0 +1,56 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres:14.0-alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    env_file:
+      - ./.env
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - botnet
+    volumes:
+      - /var/lib/postgresql/data/
+
+  django:
+    container_name: adminpanel
+    build:
+      context: .
+#      dockerfile: Dockerfile
+    command: python django_app.py runserver 0.0.0.0:8000 --noreload
+    ports:
+      - '8000:8000'
+    networks:
+      - botnet
+#    volumes:
+#      - .:/src
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+#    links:
+#      - db:db
+
+  bot:
+    container_name: bot
+    build:
+      context: .
+    command: python main.py
+    volumes:
+      - .:/src
+    networks:
+      - botnet
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - django
+
+networks:
+  botnet:
+    driver: bridge
