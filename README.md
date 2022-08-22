@@ -16,9 +16,11 @@
 ## Технологии
 - Python
 - Aiogram
+- Pyppeteer
 - Django
 - PostgreSQL
-- Pyppeteer
+- Docker
+
 
 <details>
   <summary>
@@ -100,6 +102,43 @@
 </details>
 
 ## Запуск
+
+Для запуска необходим токен телеграмм-бота. В случае его отсутствия создайте бота с помощью @BotFather
+- Создайте и запустите вирт. окружения:
+```python
+python -m venv venv
+(win) source venv/Scripts/activate
+(linux) source venv/bin/activate
+```
+- Установите зависимости из главной директории:
+```python
+pip install -r requirements.txt
+```
+- Создайте токен для `Django`-проекта:
+```python
+python django_app.py shell
+>>> from django.core.management.utils import get_random_secret_key
+>>> get_random_secret_key()
+Output:
+    'ed6%d)b9i%k0ohg6^ql8q+8vrawvb__&45vr*&s&nrqu7ma&y&'
+```
+- Создайте и заполните `.env` файл в главной директории. Пример:
+```dotenv
+BOT_TOKEN="<токен телеграмм-бота от @BotFather>"
+
+SECRET_KEY="ed6%d)b9i%k0ohg6^ql8q+8vrawvb__&45vr*&s&nrqu7ma&y&"
+
+DB_ENGINE=django.db.backends.postgresql
+POSTGRES_DB=postgres
+POSTGRES_USER=postgres
+PASSWORD=postgres
+DB_HOST=db
+DB_PORT=5432
+```
+- Из главной директории выполните команду:
+```python
+docker-compose up
+```
 
 ## Автор
 

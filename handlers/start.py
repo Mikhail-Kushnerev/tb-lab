@@ -14,6 +14,9 @@ get_log()
 
 @dp.message_handler(commands=("start",))
 async def start(message: Message) -> None:
+    """
+    Отправка ответного сообщения пользователю при вызове команды '/start'
+    """
     user: str = message.from_user.first_name
     logging.info(
         f"Пользователь {user} вызвал команду 'start'"
@@ -29,6 +32,13 @@ async def start(message: Message) -> None:
 
 @dp.message_handler()
 async def check(message: Message) -> None:
+    """
+    Проверка введенного пользователем запроса:
+    - правильность написания;
+    - существования ресурса.
+    Если вышеперечисленные условия выполнены, запускается функция
+    search (обработка запроса)
+    """
     logging.info(f"Запрос от {message.from_user.first_name}")
     try:
         url: str = message.text

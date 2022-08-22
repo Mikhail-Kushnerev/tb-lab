@@ -19,21 +19,21 @@ services:
     container_name: adminpanel
     build:
       context: .
-#      dockerfile: Dockerfile
+      dockerfile: Dockerfile
     command: python django_app.py runserver 0.0.0.0:8000 --noreload
     ports:
       - '8000:8000'
     networks:
       - botnet
-#    volumes:
-#      - .:/src
+    volumes:
+      - .:/src
     restart: always
     env_file:
       - ./.env
     depends_on:
       - db
-#    links:
-#      - db:db
+    links:
+      - db:db
 
   bot:
     container_name: bot

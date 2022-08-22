@@ -12,3 +12,7 @@ class BrokenUrlStart(Exception):
 
 class BrokenUrl(Exception):
     pass
+
+
+class BrowserNotFound(Exception):
+    pass

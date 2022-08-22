@@ -1,3 +1,4 @@
+import logging
 import re
 import time
 from typing import Pattern, Match
@@ -16,58 +17,86 @@ from keyboards.inline import (
 from utils.commands import add_item
 from utils.config import dp, DOWNLOAD_DIR
 from utils.constants import PATTERN
+from utils.exceptions import BrowserNotFound
+from services.logger import get_log
+
+
+get_log()
 
 
 async def search(url: str, msg: int, user_id: int) -> None:
+    """
+    Процесс формирования скриншота:
+    1. запуск браузера в фоне;
+    2. получение и отправка скриншота пользователю (группу);
+    3. формирование текста (описание скриншота);
+    4. редактирование п.2 (добавление п.3);
+    5. запись информации в БД.
+    """
     start: time = time.perf_counter()
-    browser: Browser = await launch(
-        executablePath='/usr/bin/google-chrome-stable',
-        headless=True, args=['--no-sandbox'])
-    page: Page = await browser.newPage()
-    await page.goto(
-        url,
-        {"waitUntil": "networkidle2"}
-    )
-    file_name: str = url.split('//')[1].rsplit('.')[0]
-    path: str = fr"{DOWNLOAD_DIR}\{file_name}.png"
-    await page.screenshot(
-        {
-            "path": path,
-        }
-    )
-    element: ElementHandle | None = await page.querySelector('title')
-    title: str = await page.evaluate(
-        '(element) => element.textContent',
-        element
-    )
-    text: str = "\n".join(
-        (
-            title,
-            f"\n{markdown.hbold('Веб - сайт')}: {url}\n",
-            "Время обработки: {} секунд"
+    logging.info("Запуск браузера")
+    try:
+        browser: Browser = await launch(
+           {
+               "executablePath": '/usr/bin/google-chrome-stabl',
+               'headless': True,
+               'options': {
+                   'args': ['--no-sandbox', '--disable-setuid-sandbox']
+               }
+           }
         )
-    )
-    with open(path, 'rb') as file:
-        await dp.bot.edit_message_media(
+    except BrowserNotFound as err:
+        logging.error(f"Ошибка запуска браузера\n{err}")
+    else:
+        page: Page = await browser.newPage()
+        await page.goto(
+            url,
+            {"waitUntil": "networkidle2"}
+        )
+        file_name: str = url.split('//')[1].rsplit('.')[0]
+        path: str = fr"{DOWNLOAD_DIR}\{file_name}.png"
+        logging.info("Формирование скриншота в директорию downloads/images")
+        await page.screenshot(
+            {
+                "path": path,
+            }
+        )
+        element: ElementHandle | None = await page.querySelector('title')
+        title: str = await page.evaluate(
+            '(element) => element.textContent',
+            element
+        )
+        text: str = "\n".join(
+            (
+                title,
+                f"\n{markdown.hbold('Веб - сайт')}: {url}\n",
+                "Время обработки: {} секунд"
+            )
+        )
+        with open(path, 'rb') as file:
+            await dp.bot.edit_message_media(
+                chat_id=user_id,
+                message_id=msg,
+                media=types.InputMediaPhoto(file)
+            )
+        logging.info("Пользователь получил ответ (фото)")
+        markup = await check_info(5)  # Инлайн-кнопка "Подробнее"
+        await dp.bot.edit_message_caption(
             chat_id=user_id,
             message_id=msg,
-            media=types.InputMediaPhoto(file)
+            caption=text.format(int(time.perf_counter() - start)),
+            reply_markup=markup,
+            parse_mode='html'
         )
-    markup = await check_info(5)
-    await dp.bot.edit_message_caption(
-        chat_id=user_id,
-        message_id=msg,
-        caption=text.format(int(time.perf_counter() - start)),
-        reply_markup=markup,
-        parse_mode='html'
-    )
-    compile: Pattern[str] = re.compile(PATTERN)
-    domen: Match[str] | None = compile.search(url)
-    await add_item(
-        user_id=user_id,
-        domen=domen.groups("domen")[0]
-    )
-    await browser.close()
+        logging.info("Пользователь получил ответ (фото + текст)")
+        pattern: Pattern[str] = re.compile(PATTERN)
+        url: Match[str] | None = pattern.search(url)
+        await add_item(
+            user_id=user_id,
+            domen=url.groups("domen")[0]
+        )
+        logging.info("В БД записана информация")
+        await browser.close()
 
 
 @dp.callback_query_handler(show_domen.filter(show="more"))
