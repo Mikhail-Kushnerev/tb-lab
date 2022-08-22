@@ -28,75 +28,81 @@
   </summary>
 
 ```cmd
- tp-lab:
-|   .env
+tp-lab:
 |   .gitignore
-|   django_app.py  <-- копия файла manage.py (для запуска из главной директории)
 |   LICENSE
-|   main.py  <-- Точка входа (запуск бота)
 |   README.md
-|   requirements.txt
-|   tree.txt
-|
-+---adminpanel  <-- Django проект
-|   |   manage.py
+|           
++---src
+|   |   django_app.py  <-- копия файла manage.py (для запуска из главной директории)
+|   |   docker-compose.yml
+|   |   Dockerfile
+|   |   main.py  <-- Точка входа (запуск бота)
+|   |   requirements.txt
+|   |   __init__.py
 |   |   
-|   +---adminpanel
-|   |   |   asgi.py
-|   |   |   settings.py
-|   |   |   urls.py
-|   |   |   wsgi.py
+|   +---adminpanel  <-- Django проект
+|   |   |   manage.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---adminpanel
+|   |   |   |   asgi.py
+|   |   |   |   settings.py
+|   |   |   |   urls.py
+|   |   |   |   wsgi.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           
+|   |   +---panel  <-- Django приложение
+|   |   |   |   admin.py  <-- админ-панель superuser
+|   |   |   |   apps.py
+|   |   |   |   models.py  <-- модель БД
+|   |   |   |   tests.py
+|   |   |   |   views.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   +---migrations
+|   |   |   |   |   
+|   |   |   |   \---__pycache__
+|   |   |   |           
+|   |   |   \---__pycache__
+|   |   |           
+|   |   \---__pycache__
+|   |           
+|   +---downloads  <-- Директория с сохранёнными скриншотами
+|   |   \---images
+|   |           
+|   +---handlers  <-- Обработчики updates
+|   |   |   parse_and_answer.py  <-- Обработка запроса
+|   |   |   start.py  <-- Проверка запроса + описание бота (/start)
 |   |   |   __init__.py
 |   |   |   
 |   |   \---__pycache__
 |   |           
-|   +---panel  <-- Django приложение
-|   |   |   admin.py  <-- админ-панель superuser
-|   |   |   apps.py
-|   |   |   models.py  <-- модель БД
-|   |   |   tests.py
-|   |   |   views.py
+|   +---keyboards  <-- Клавиатуры
+|   |   |   inline.py  <-- Инлайн кнопки
 |   |   |   __init__.py
-|   |   |           
+|   |   |   
+|   |   \---__pycache__
+|   |           
+|   +---services
+|   |   |   logger.py  <-- Логгер
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           
+|   +---utils
+|   |   |   commands.py  <-- Команды для работы с БД через бота
+|   |   |   config.py  <-- Конфигурация бота и директорий
+|   |   |   constants.py  <-- Константные данные
+|   |   |   exceptions.py  <-- Кастомные исключения
+|   |   |   misc.py  <-- Обработка ошибок
+|   |   |   __init__.py
+|   |   |   
 |   |   \---__pycache__
 |   |           
 |   \---__pycache__
-|           
-+---downloads  <-- Директория с сохранёнными скриншотами
-|   \---images
-|           
-+---handlers  <-- Обработчики updates
-|   |   parse_and_answer.py  <-- Обработка запроса
-|   |   start.py  <-- Проверка запроса + описание бота (/start)
-|   |   __init__.py
-|   |   
-|   \---__pycache__
-|           
-+---keyboards  <-- Клавиатуры
-|   |   inline.py  <-- Инлайн кнопки
-|   |   __init__.py
-|   |   
-|   \---__pycache__
-|           
-+---services
-|   |   logger.py  <-- Логгер
-|   |   __init__.py
-|   |   
-|   \---__pycache__
-|           
-+---utils
-|   |   commands.py  <-- Команды для работы с БД через бота
-|   |   config.py  <-- Конфигурация бота и директорий
-|   |   constants.py  <-- Константные данные
-|   |   exceptions.py  <-- Кастомные исключения
-|   |   misc.py  <-- Обработка ошибок
-|   |   __init__.py
-|   |   
-|   \---__pycache__
-|           
-+---venv
-|
-\---__pycache__
 ```
 
 </details>
@@ -123,7 +129,7 @@ python django_app.py shell
 Output:
     'ed6%d)b9i%k0ohg6^ql8q+8vrawvb__&45vr*&s&nrqu7ma&y&'
 ```
-- Создайте и заполните `.env` файл в главной директории. Пример:
+- Создайте и заполните `.env` файл в директории `src`. Пример:
 ```dotenv
 BOT_TOKEN="<токен телеграмм-бота от @BotFather>"
 
@@ -136,7 +142,7 @@ PASSWORD=postgres
 DB_HOST=db
 DB_PORT=5432
 ```
-- Из главной директории выполните команду:
+- Из директории `src` выполните команду:
 ```python
 docker-compose up
 ```
