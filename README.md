@@ -3,10 +3,17 @@
 ## Описание
 
 Бот для создания скриншотов веб-сайтов по заданной ссылке. Например, скинув `https://github.com` боту, будет сделан
-скриншот заданного `url`.  
-Результат работы:  
-<img alt="result" width="50%" src="https://github.com/Mikhail-Kushnerev/image/blob/main/tp_bot/result.jpg"/>    
-Бот работает как в личным, так и групповых чатах.
+скриншот заданного `url`. Бот работает как в личным, так и групповых чатах.  
+<details>
+  <summary>
+    <h3> Результат работы </h3>
+  </summary>
+    <img
+      alt="result"
+      width="23%"
+      src="https://github.com/Mikhail-Kushnerev/image/blob/main/tp_bot/result.jpg"/
+  >
+</details>
 
 ## Содержание
 
