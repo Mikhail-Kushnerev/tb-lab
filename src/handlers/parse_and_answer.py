@@ -38,7 +38,7 @@ async def search(url: str, msg: int, user_id: int) -> None:
     try:
         browser: Browser = await launch(
            {
-               # "executablePath": '/root/.local/share/pyppeteer/local-chromium/588429',
+               "executablePath": '/root/.local/share/pyppeteer/local-chromium/588429',
                'headless': True,
                'options': {
                    'args': ['--no-sandbox', '--disable-setuid-sandbox']
@@ -101,8 +101,5 @@ async def search(url: str, msg: int, user_id: int) -> None:
 
 @dp.callback_query_handler(show_domen.filter(show="more"))
 async def more_info(call: types.CallbackQuery, callback_data):
-    print(callback_data)
-    # async with aiohttp.ClientSession() as session:
-    #     response = await session.get(url)
-    #     print(response.status)
+    ...
 
