@@ -5,7 +5,7 @@
 Бот для создания скриншотов веб-сайтов по заданной ссылке. Например, скинув `https://github.com` боту, будет сделан
 скриншот заданного `url`.  
 Результат работы:  
-![](https://github.com/Mikhail-Kushnerev/image/blob/main/tp_bot/result.jpg)  
+<img alt="result" width="50%" src="https://github.com/Mikhail-Kushnerev/image/blob/main/tp_bot/result.jpg"/>    
 Бот работает как в личным, так и групповых чатах.
 
 ## Содержание
