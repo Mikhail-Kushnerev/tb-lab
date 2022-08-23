@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
     env_file:
-      - ./.env
+      - .env
     restart: always
     ports:
       - "5432:5432"
@@ -19,7 +19,7 @@ services:
     container_name: adminpanel
     build:
       context: .
-      dockerfile: Dockerfile
+#      dockerfile: Dockerfile
     command: python django_app.py runserver 0.0.0.0:8000 --noreload
     ports:
       - '8000:8000'
@@ -29,7 +29,7 @@ services:
       - .:/src
     restart: always
     env_file:
-      - ./.env
+      - .env
     depends_on:
       - db
     links:
@@ -40,13 +40,16 @@ services:
     build:
       context: .
     command: python main.py
+#    >
+#      bash -c "pwd
+#      && ls -la"
     volumes:
       - .:/src
     networks:
       - botnet
     restart: always
     env_file:
-      - ./.env
+      - .env
     depends_on:
       - db
       - django

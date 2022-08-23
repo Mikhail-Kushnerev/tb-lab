@@ -1,7 +1,6 @@
 import logging
 import re
 import time
-from pathlib import Path
 from typing import Pattern, Match
 
 from aiogram import types
@@ -15,11 +14,12 @@ from keyboards.inline import (
     show_domen,
     check_info
 )
-from services.logger import get_log
 from utils.commands import add_item
 from utils.config import dp, DOWNLOAD_DIR
 from utils.constants import PATTERN
 from utils.exceptions import BrowserNotFound
+from services.logger import get_log
+
 
 get_log()
 
@@ -38,10 +38,10 @@ async def search(url: str, msg: int, user_id: int) -> None:
     try:
         browser: Browser = await launch(
            {
-               "executablePath": "/usr/bin/google-chrome-stabl",
-               "headless": True,
-               "options": {
-                   "args": ["--no-sandbox", "-disable-setuid-sandbox"]
+               "executablePath": '/usr/bin/google-chrome-stabl',
+               'headless': True,
+               'options': {
+                   'args': ['--no-sandbox', '--disable-setuid-sandbox']
                }
            }
         )
@@ -54,7 +54,7 @@ async def search(url: str, msg: int, user_id: int) -> None:
             {"waitUntil": "networkidle2"}
         )
         file_name: str = url.split('//')[1].rsplit('.')[0]
-        path: Path = DOWNLOAD_DIR / f"{file_name}.png"
+        path: str = fr"{DOWNLOAD_DIR}\{file_name}.png"
         logging.info("Формирование скриншота в директорию downloads/images")
         await page.screenshot(
             {
