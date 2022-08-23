@@ -80,7 +80,7 @@ async def search(url: str, msg: int, user_id: int) -> None:
                 media=types.InputMediaPhoto(file)
             )
         logging.info("Пользователь получил ответ (фото)")
-        markup = await check_info(5)  # Инлайн-кнопка "Подробнее"
+        markup = await check_info(url)  # Инлайн-кнопка "Подробнее"
         await dp.bot.edit_message_caption(
             chat_id=user_id,
             message_id=msg,
