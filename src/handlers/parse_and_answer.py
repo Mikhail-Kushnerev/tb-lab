@@ -38,7 +38,7 @@ async def search(url: str, msg: int, user_id: int) -> None:
     try:
         browser: Browser = await launch(
            {
-               "executablePath": '/root/.local/share/pyppeteer/local-chromium/588429',
+               # "executablePath": '/root/.local/share/pyppeteer/local-chromium/588429',
                'headless': True,
                'options': {
                    'args': ['--no-sandbox', '--disable-setuid-sandbox']
