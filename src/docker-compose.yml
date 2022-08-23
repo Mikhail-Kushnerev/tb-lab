@@ -19,7 +19,6 @@ services:
     container_name: adminpanel
     build:
       context: .
-#      dockerfile: Dockerfile
     command: python django_app.py runserver 0.0.0.0:8000 --noreload
     ports:
       - '8000:8000'
@@ -40,9 +39,6 @@ services:
     build:
       context: .
     command: python main.py
-#    >
-#      bash -c "pwd
-#      && ls -la"
     volumes:
       - .:/src
     networks:
